@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Physicists", "..\Physicists\Physicists.csproj", "{527894BF-91A5-4419-BD76-5503A2381AD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Physicists.UnitTests", "Physicists.UnitTests\Physicists.UnitTests.csproj", "{4103928C-E253-4AFC-B0C8-7E5ABAB63577}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{527894BF-91A5-4419-BD76-5503A2381AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{527894BF-91A5-4419-BD76-5503A2381AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{527894BF-91A5-4419-BD76-5503A2381AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{527894BF-91A5-4419-BD76-5503A2381AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4103928C-E253-4AFC-B0C8-7E5ABAB63577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4103928C-E253-4AFC-B0C8-7E5ABAB63577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4103928C-E253-4AFC-B0C8-7E5ABAB63577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4103928C-E253-4AFC-B0C8-7E5ABAB63577}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
