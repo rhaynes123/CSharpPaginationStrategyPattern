@@ -22,7 +22,7 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string? SearchString { get; set; }
     public int Total { get; set; }
-    [BindProperty(SupportsGet = true)] public int LastId { get; set; } = 0;
+    [BindProperty(SupportsGet = true)] public string LastId { get; set; } = string.Empty;
 
     public IndexModel(ILogger<IndexModel> logger
     , ApplicationDbContext db)
@@ -33,28 +33,48 @@ public class IndexModel : PageModel
 
     private IPaginationStrategy GetStrategy()
     {
-        return LastId == 0 ? new BasicPaginationStrategy(_db) : new KeysetPaginationStrategy(_db);
+        // For this example a method like this is sufficient but if more strategies get added consider a switch or Factory method solution.
+        return  string.IsNullOrWhiteSpace(LastId) ? new BasicPaginationStrategy(_db) : new KeysetPaginationStrategy(_db);
+    }
+
+    /*
+     * NOTE: Encoded and decoded while better than a raw id is also a subpar solution and is merely for demonstration purposes.
+     */
+    private string EncodeId(int id)
+    {
+        var bytes = BitConverter.GetBytes(id);
+        return Convert.ToBase64String(bytes);
+    }
+
+    private int DecodeId(string id)
+    {
+        if(string.IsNullOrWhiteSpace(LastId)) return 0;
+        var bytes = Convert.FromBase64String(id);
+        return BitConverter.ToInt32(bytes, 0);
     }
 
     public async Task<IActionResult> OnGet()
     {
-        Total = string.IsNullOrWhiteSpace(SearchString) 
+        int totalCount = string.IsNullOrWhiteSpace(SearchString) 
             ? await _db.Physicists.CountAsync() 
             : await _db.Physicists
                 .Where(phy => phy.Name.Contains(SearchString))
                 .CountAsync();
+        // Makes sure the number of pages are limited
+        Total = (int)Math.Ceiling(totalCount / (double)PageSize);
         var strategy = GetStrategy();
         var results = await strategy.GetPhysicists(new StrategyOptions
         {
             PageSize = PageSize,
             PageNumber = PageNumber,
-            KeyWord = SearchString
+            KeyWord = SearchString,
+            LastId = DecodeId(LastId)
 
         });
         Physicists = results.ToList();
         if (Physicists.Count > 0)
         {
-            LastId = Physicists.Last().Id;
+            LastId = EncodeId(Physicists.Last().Id);
         }
         
         return Page();

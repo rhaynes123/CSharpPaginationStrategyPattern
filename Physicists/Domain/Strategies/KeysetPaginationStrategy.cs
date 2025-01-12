@@ -12,13 +12,21 @@ public class KeysetPaginationStrategy: IPaginationStrategy
     {
         _dbContext = dbContext;
     }
+    /// <inheritdoc cref="IPaginationStrategy"/>
     public async Task<IEnumerable<Physicist>> GetPhysicists(StrategyOptions options)
     {
-        var physicists = options.LastId == 0
-            ? _dbContext.Physicists 
-            : _dbContext.Physicists.Where(p => p.Id > options.LastId);
+        ArgumentNullException.ThrowIfNull(options);
+        if (options.PageSize < 0 || options.LastId < 1)
+        {
+            throw new InvalidOperationException("Page size cannot be less than zero.");
+        }
+        if (options.LastId < 1)
+        {
+            throw new InvalidOperationException("Last Id has to be greater than zero.");
+        }
         
-        return await physicists
+        return await _dbContext.Physicists
+            .Where(p => p.Id > options.LastId)
             .AsNoTracking()
             .OrderBy(phy => phy.Id)
             .Take(options.PageSize)

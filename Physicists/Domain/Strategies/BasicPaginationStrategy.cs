@@ -11,8 +11,15 @@ public class BasicPaginationStrategy: IPaginationStrategy
     {
         _dbContext = dbContext;
     }
+    /// <inheritdoc cref="IPaginationStrategy"/>
+   
     public async Task<IEnumerable<Physicist>> GetPhysicists(StrategyOptions options)
     {
+        ArgumentNullException.ThrowIfNull(options);
+        if (options.PageSize < 0 || options.PageNumber < 0)
+        {
+            throw new InvalidOperationException("Page size and/or Page Number cannot be less than zero.");
+        }
         var physicists = string.IsNullOrWhiteSpace(options.KeyWord) 
             ? _dbContext.Physicists 
             : _dbContext.Physicists.Where(p => p.Name.Contains(options.KeyWord));

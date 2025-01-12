@@ -23,7 +23,7 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Id</th>
+        <th>#</th>
         <th>Name</th>
         <th>DOB</th>
     </tr>
@@ -32,7 +32,7 @@
     @foreach (var physicist in Model.Physicists)
     {
         <tr>
-            <td>@physicist.Id</td>
+            <td>@(Model.Physicists.IndexOf(physicist) + 1)</td>
             <td>@physicist.Name</td>
             <td>@physicist.DateOfBirth</td>
         </tr>
@@ -46,21 +46,21 @@
         @if (Model.PageNumber > 1)
         {
             <li class="page-item">
-                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@(Model.PageNumber - 1)" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">Previous</a>
+                <a class="page-link" asp-page="./Index" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">Previous</a>
             </li>
         }
 
         @for (int i = 1; i <= Model.Total; i++)
         {
             <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@i" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">@i</a>
+                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@i" asp-route-PageSize="@Model.PageSize" >@i</a>
             </li>
         }
 
         @if (Model.PageNumber < Model.Total)
         {
             <li class="page-item">
-                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@(Model.PageNumber + 1)" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">Next</a>
+                <a class="page-link" asp-page="./Index"  asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">Next</a>
             </li>
         }
     </ul>
