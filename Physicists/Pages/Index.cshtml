@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<h1>Physicists</h1>
+<h1>
+    <form method="get" class="mb-4">
+        @Html.HiddenFor(model => model.LastId)
+        <div class="input-group">
+            @Html.TextBoxFor(model => model.SearchString, new { @class = "form-control", placeholder = "..." })
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+
+    </form>
+</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>DOB</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var physicist in Model.Physicists)
+    {
+        <tr>
+            <td>@physicist.Id</td>
+            <td>@physicist.Name</td>
+            <td>@physicist.DateOfBirth</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @if (Model.PageNumber > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@(Model.PageNumber - 1)" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">Previous</a>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.Total; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@i" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">@i</a>
+            </li>
+        }
+
+        @if (Model.PageNumber < Model.Total)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Index" asp-route-PageNumber="@(Model.PageNumber + 1)" asp-route-PageSize="@Model.PageSize" asp-route-LastId="@Model.LastId">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
