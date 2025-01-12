@@ -16,7 +16,7 @@ public class KeysetPaginationStrategy: IPaginationStrategy
     public async Task<IEnumerable<Physicist>> GetPhysicists(StrategyOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
-        if (options.PageSize < 0 || options.LastId < 1)
+        if (options.PageSize < 0)
         {
             throw new InvalidOperationException("Page size cannot be less than zero.");
         }

@@ -1,17 +1,15 @@
-﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Physicists.Data;
 using Physicists.Domain.Strategies;
-using Physicists.Models;
-
+using Physicists.Data;
+using FluentAssertions;
 namespace Physicists.UnitTests;
 
-public class BasicStategyTests
+[TestFixture]
+public class KeysetStrategyTests
 {
-    private BasicPaginationStrategy _sut;
+    private KeysetPaginationStrategy _sut;
     private ApplicationDbContext _context;
 
-    public BasicStategyTests()
+    public KeysetStrategyTests()
     {
         _context = TestDbContext.Create();
     }
@@ -19,18 +17,18 @@ public class BasicStategyTests
     [OneTimeSetUp]
     public void Setup()
     {
-        _sut = new BasicPaginationStrategy(_context);
+        _sut = new KeysetPaginationStrategy(_context);
     }
 
     [Test]
-    [TestCase(1, 3, "Albert Einstein")]
     [TestCase(2, 2, "Marie Curie")]
-    public async Task TestFirstNameIsCorrect(int page, int pageSize, string name)
+    [TestCase(3, 2, "Nikola Tesla")]
+    public async Task TestFirstNameIsCorrect(int lastId, int pageSize, string name)
     {
         // Arrange
         var options = new StrategyOptions
         {
-            PageNumber = page,
+            LastId = lastId,
             PageSize = pageSize,
         };
         // Act
@@ -38,33 +36,18 @@ public class BasicStategyTests
         // Assert
         results.First().Name.Should().Be(name);
     }
-    
-    
+
     [Test]
-    public async Task TestStrategyThrowsWithNegativePageSize()
+    public async Task TestStrategyThrowsWithoutLastId()
     {
         // Arrange
         var options = new StrategyOptions
         {
-            PageNumber = -1,
-            PageSize = -1,
         };
         // Act
         var act  = () =>  _sut.GetPhysicists(options);
         // Assert
         await act.Should().ThrowAsync<InvalidOperationException>();
-    }
-    
-    
-    [Test]
-    public async Task TestStrategyThrowsWithoutOptions()
-    {
-        // Arrange
-        StrategyOptions options = null!;
-        // Act
-        var act  = () =>  _sut.GetPhysicists(options);
-        // Assert
-        await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [OneTimeTearDown]
