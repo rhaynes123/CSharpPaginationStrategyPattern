@@ -54,9 +54,9 @@ namespace Physicists.Data.Migrations
 ('Daniel Bernoulli', '1700-02-08'),
 ('Francis Hauksbee', '1660-05-27'),
 ('Jean-Baptiste Biot', '1774-04-21'),
-('Thales of Miletus', '-624-01-01'), -- Approximate date
-('Archimedes', '-287-01-01'), -- Approximate date
-('Hipparchus', '-190-01-01'), -- Approximate date
+('Thales of Miletus', '624-01-01'), -- Approximate date
+('Archimedes', '287-01-01'), -- Approximate date
+('Hipparchus', '190-01-01'), -- Approximate date
 ('Alhazen (Ibn al-Haytham)', '965-07-01'),
 ('Aryabhata', '476-01-01'),
 ('Georg Ohm', '1789-03-16');

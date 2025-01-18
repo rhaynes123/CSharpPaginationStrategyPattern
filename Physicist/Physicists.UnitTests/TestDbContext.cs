@@ -18,25 +18,25 @@ public class TestDbContext
             {
                 Id = 1,
                 Name = "Albert Einstein",
-                DateOfBirth = new DateTime(1873, 3, 14),
+                DateOfBirth = new DateOnly(1873, 3, 14),
             },
             new Physicist
             {
                 Id = 2,
                 Name = "Isaac Newton",
-                DateOfBirth = new DateTime(1643, 1, 4),
+                DateOfBirth = new DateOnly(1643, 1, 4),
             },
             new Physicist
             {
                 Id = 3,
                 Name = "Marie Curie",
-                DateOfBirth = new DateTime(1867, 11, 7),
+                DateOfBirth = new DateOnly(1867, 11, 7),
             },
             new Physicist
             {
                 Id = 4,
                 Name = "Nikola Tesla",
-                DateOfBirth = new DateTime(1856, 7, 10),
+                DateOfBirth = new DateOnly(1856, 7, 10),
             },
         });
         context.SaveChanges();
